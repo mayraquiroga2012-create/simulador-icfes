@@ -30,7 +30,19 @@
             <form onsubmit="handleLogin(event)">
                 <div class="input-group">
                     <label for="login-username">Usuario</label>
-                    <input type="text" id="login-username" required placeholder="Tu nombre de usuario">
+                    <input type="text" id="login-username" required placeholder="Tu nombre de usuario" oninput="
+                        var lbl = document.querySelector('label[for=login-password]');
+                        var inp = document.getElementById('login-password');
+                        if(this.value.trim().toLowerCase() === 'profesor') {
+                            lbl.textContent = 'Contraseña';
+                            inp.placeholder = 'Ingresa tu contraseña';
+                            inp.type = 'password';
+                        } else {
+                            lbl.textContent = 'Documento de Identidad';
+                            inp.placeholder = 'Ingresa tu documento';
+                            inp.type = 'text';
+                        }
+                    ">
                 </div>
                 <div class="input-group">
                     <label for="login-password">Documento de Identidad</label>
