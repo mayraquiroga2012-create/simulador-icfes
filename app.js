@@ -218,11 +218,22 @@ function updateSlotsInfo() {
 
 window.handleRegister = function(e) {
     e.preventDefault();
+    const role = document.getElementById('reg-role').value;
     const name = document.getElementById('reg-name').value.trim();
+    const password = document.getElementById('reg-password').value;
+
+    if (role === 'profesor') {
+        localStorage.setItem('icfes_teacher', JSON.stringify({ name, password }));
+        document.getElementById('register-success').textContent = 'Profesor registrado exitosamente.';
+        document.getElementById('register-error').textContent = '';
+        e.target.reset();
+        setTimeout(() => switchTab('login'), 1500);
+        return;
+    }
+
     const age = document.getElementById('reg-age').value.trim();
     const grade = document.getElementById('reg-grade').value.trim();
     const username = document.getElementById('reg-username').value.trim();
-    const password = document.getElementById('reg-password').value;
 
     const students = getStudents();
     if (students.length >= MAX_STUDENTS) {
@@ -237,6 +248,7 @@ window.handleRegister = function(e) {
     students.push({ name, age, grade, username, password, results: {} });
     saveStudents(students);
     document.getElementById('register-success').textContent = 'Registrado exitosamente.';
+    document.getElementById('register-error').textContent = '';
     e.target.reset();
     setTimeout(() => switchTab('login'), 1500);
 }
@@ -246,12 +258,19 @@ window.handleLogin = function(e) {
     const username = document.getElementById('login-username').value.trim();
     const password = document.getElementById('login-password').value;
     
-    if (username.toLowerCase() === 'profesor' && password === 'admin123') {
-        activeUser = { username: 'profesor', role: 'teacher' };
-        localStorage.setItem('icfes_active_user', JSON.stringify(activeUser));
-        showTeacherDashboard();
-        e.target.reset();
-        return;
+    if (username.toLowerCase() === 'profesor') {
+        const teacherData = JSON.parse(localStorage.getItem('icfes_teacher'));
+        const validPassword = teacherData ? teacherData.password : 'admin123';
+        if (password === validPassword) {
+            activeUser = { username: 'profesor', role: 'teacher', name: teacherData ? teacherData.name : 'Profesor' };
+            localStorage.setItem('icfes_active_user', JSON.stringify(activeUser));
+            showTeacherDashboard();
+            e.target.reset();
+            return;
+        } else {
+            document.getElementById('login-error').textContent = 'Contraseña incorrecta.';
+            return;
+        }
     }
     
     const students = getStudents();
