@@ -56,45 +56,79 @@
         <div class="form-container" id="register-form">
             <form onsubmit="handleRegister(event)">
                 <div class="input-group">
+                    <label>Tipo de Registro</label>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" id="btn-role-student" class="btn primary-btn" style="flex:1; padding: 10px;" onclick="
+                            document.getElementById('btn-role-student').className='btn primary-btn';
+                            document.getElementById('btn-role-teacher').className='btn secondary-btn';
+                            document.getElementById('student-fields').style.display='block';
+                            document.getElementById('reg-role').value='estudiante';
+                            document.getElementById('reg-age').required=true;
+                            document.getElementById('reg-grade').required=true;
+                            document.getElementById('reg-username').required=true;
+                            document.getElementById('reg-password').type='text';
+                            document.querySelector('label[for=reg-password]').textContent='Documento de Identidad';
+                            document.getElementById('reg-password').placeholder='Ej: 1002345678';
+                            document.getElementById('slots-row').style.display='block';
+                        ">Estudiante</button>
+                        <button type="button" id="btn-role-teacher" class="btn secondary-btn" style="flex:1; padding: 10px;" onclick="
+                            document.getElementById('btn-role-teacher').className='btn primary-btn';
+                            document.getElementById('btn-role-student').className='btn secondary-btn';
+                            document.getElementById('student-fields').style.display='none';
+                            document.getElementById('reg-role').value='profesor';
+                            document.getElementById('reg-age').required=false;
+                            document.getElementById('reg-grade').required=false;
+                            document.getElementById('reg-username').required=false;
+                            document.getElementById('reg-password').type='password';
+                            document.querySelector('label[for=reg-password]').textContent='Contraseña';
+                            document.getElementById('reg-password').placeholder='Crea una contraseña';
+                            document.getElementById('slots-row').style.display='none';
+                        ">Profesor</button>
+                    </div>
+                    <input type="hidden" id="reg-role" value="estudiante">
+                </div>
+                <div class="input-group">
                     <label for="reg-name">Nombre Completo</label>
                     <input type="text" id="reg-name" required placeholder="Ej: Juan Pérez">
                 </div>
-                <div class="input-group" style="display: flex; gap: 15px;">
-                    <div style="flex: 1;">
-                        <label for="reg-age">Edad</label>
-                        <input type="number" id="reg-age" required min="10" max="99" placeholder="Ej: 16">
+                <div id="student-fields">
+                    <div class="input-group" style="display: flex; gap: 15px;">
+                        <div style="flex: 1;">
+                            <label for="reg-age">Edad</label>
+                            <input type="number" id="reg-age" required min="10" max="99" placeholder="Ej: 16">
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="reg-grade">Grado</label>
+                            <select id="reg-grade" required style="width: 100%; padding: 14px 16px; background: rgba(15, 23, 42, 0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: white; font-size: 1rem; outline: none; appearance: none; -webkit-appearance: none; -moz-appearance: none; cursor: pointer;">
+                                <option value="" disabled selected style="color: #666;">Selecciona tu grado</option>
+                                <optgroup label="── Noveno ──" style="color: #94a3b8;">
+                                <option value="Noveno A" style="color: black;">Noveno A</option>
+                                <option value="Noveno B" style="color: black;">Noveno B</option>
+                                <option value="Noveno C" style="color: black;">Noveno C</option>
+                                </optgroup>
+                                <optgroup label="── Décimo ──" style="color: #94a3b8;">
+                                <option value="Décimo A" style="color: black;">Décimo A</option>
+                                <option value="Décimo B" style="color: black;">Décimo B</option>
+                                <option value="Décimo C" style="color: black;">Décimo C</option>
+                                </optgroup>
+                                <optgroup label="── Once ──" style="color: #94a3b8;">
+                                <option value="Once A" style="color: black;">Once A</option>
+                                <option value="Once B" style="color: black;">Once B</option>
+                                <option value="Once C" style="color: black;">Once C</option>
+                                </optgroup>
+                            </select>
+                        </div>
                     </div>
-                    <div style="flex: 1;">
-                        <label for="reg-grade">Grado</label>
-                        <select id="reg-grade" required style="width: 100%; padding: 14px 16px; background: rgba(15, 23, 42, 0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: white; font-size: 1rem; outline: none; appearance: none; -webkit-appearance: none; -moz-appearance: none; cursor: pointer;">
-                            <option value="" disabled selected style="color: #666;">Selecciona tu grado</option>
-                            <optgroup label="── Noveno ──" style="color: #94a3b8;">
-                            <option value="Noveno A" style="color: black;">Noveno A</option>
-                            <option value="Noveno B" style="color: black;">Noveno B</option>
-                            <option value="Noveno C" style="color: black;">Noveno C</option>
-                            </optgroup>
-                            <optgroup label="── Décimo ──" style="color: #94a3b8;">
-                            <option value="Décimo A" style="color: black;">Décimo A</option>
-                            <option value="Décimo B" style="color: black;">Décimo B</option>
-                            <option value="Décimo C" style="color: black;">Décimo C</option>
-                            </optgroup>
-                            <optgroup label="── Once ──" style="color: #94a3b8;">
-                            <option value="Once A" style="color: black;">Once A</option>
-                            <option value="Once B" style="color: black;">Once B</option>
-                            <option value="Once C" style="color: black;">Once C</option>
-                            </optgroup>
-                        </select>
+                    <div class="input-group">
+                        <label for="reg-username">Usuario</label>
+                        <input type="text" id="reg-username" required placeholder="Crea un usuario">
                     </div>
-                </div>
-                <div class="input-group">
-                    <label for="reg-username">Usuario</label>
-                    <input type="text" id="reg-username" required placeholder="Crea un usuario">
                 </div>
                 <div class="input-group">
                     <label for="reg-password">Documento de Identidad</label>
                     <input type="text" id="reg-password" required placeholder="Ej: 1002345678">
                 </div>
-                <div class="stats-info">
+                <div class="stats-info" id="slots-row">
                     Cupos disponibles: <span id="slots-available">25</span>/25
                 </div>
                 <div class="error-message" id="register-error"></div>
@@ -299,6 +333,6 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=2"></script>
 </body>
 </html>
