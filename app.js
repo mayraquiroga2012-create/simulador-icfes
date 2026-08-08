@@ -259,10 +259,8 @@ window.handleLogin = function(e) {
     const password = document.getElementById('login-password').value;
     
     if (username.toLowerCase() === 'profesor') {
-        const teacherData = JSON.parse(localStorage.getItem('icfes_teacher'));
-        const validPassword = teacherData ? teacherData.password : '123';
-        if (password === validPassword) {
-            activeUser = { username: 'profesor', role: 'teacher', name: teacherData ? teacherData.name : 'Profesor' };
+        if (password === '123') {
+            activeUser = { username: 'profesor', role: 'teacher', name: 'Profesor' };
             localStorage.setItem('icfes_active_user', JSON.stringify(activeUser));
             showTeacherDashboard();
             e.target.reset();
